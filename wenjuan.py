@@ -84,7 +84,7 @@ def wenjuanxing_0(driver: webdriver):
         action.reset_actions()
     except:
         pass
-    time.sleep(50)  # 生存5秒来显示结果,可以注释掉
+    time.sleep(5)  # 生存5秒来显示结果,可以注释掉
     # 调试断点
     driver.close()
 
