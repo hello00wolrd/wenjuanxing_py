@@ -2,6 +2,7 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import random
+from selenium.webdriver import ActionChains
 
 
 def my_main():
@@ -66,10 +67,24 @@ def wenjuanxing_0(driver: webdriver):
     driver.find_element(by=By.XPATH, value='/html/body/div[2]/form/div[6]/div[7]/div[3]/div/div/div').click()
 
     time.sleep(1)  # 等待弹窗
-    driver.find_element(by=By.XPATH, value='/html/body/div[6]/div[2]/div[2]/button').click()
-    driver.find_element(by=By.XPATH,
-                        value='/html/body/div[2]/form/div[6]/div[7]/div[2]/div/div/div/div[1]/div[1]/div[4]').click()
-    time.sleep(5)  # 生存5秒来显示结果,取决于网络状态
+    try:
+        driver.find_element(by=By.XPATH, value='/html/body/div[6]/div[2]/div[2]/button').click()
+        driver.find_element(by=By.XPATH,
+                            value='/html/body/div[2]/form/div[6]/div[7]/div[2]/div/div/div/div[1]/div[1]/div[4]').click()
+    except:
+        pass
+    time.sleep(3)
+    # 处理滑块
+    try:
+        slider = driver.find_element(By.XPATH,
+                                     "/html/body/div[2]/form/div[6]/div[7]/div[2]/div/div/div/div[3]/div[1]/div/div[1]/span")
+        action = ActionChains(driver)
+        action.click_and_hold(slider).perform()
+        action.move_by_offset(270, 0).perform()
+        action.reset_actions()
+    except:
+        pass
+    time.sleep(50)  # 生存5秒来显示结果,可以注释掉
     # 调试断点
     driver.close()
 
@@ -82,7 +97,7 @@ if __name__ == '__main__':
     a = input("start?y/n\n")
     if a == 'y' or a == 'Y':
         # 目前没有办法绕过问卷星的检查机制(已解决)
-        for i in range(1):
+        for i in range(50):
             my_main()
     else:
         exit(0)
